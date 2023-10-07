@@ -53,7 +53,7 @@ This diagram shows the inheritance relationships of all weapon classes:
 
 
 ### Aiming
-For everyframe **TraceUnderCrosshairs(FHitResult& TraceHitResult)** is called to detect a hit target. If a valid hit target is detected crosshairs turn red.
+In every frame **TraceUnderCrosshairs(FHitResult& TraceHitResult)** is called to detect a hit target. If a valid hit target is detected, the crosshairs turn red.
   
 
 ![online_shooter_aim_1](https://github.com/hyklux/portfolio-online-shooter-unrealengine/assets/96270683/e6a8e8fd-b78b-4e6a-8259-168291d1af0d)
@@ -184,6 +184,38 @@ void AHitScanWeapon::Fire(const FVector& HitTarget)
 }
 ```
 
+### Shotgun (Shotgun)
+Shotgun is a type of weapon that executes multiple hit scans to the HitTarget at a single fire. Shotgun class inherits HitScanWeapon class as the basic mechanism is the same,
+however executes the number of hit scans designated in the BP_Shotgun class.
+
+
+(gif)
+
+
+``` c++
+void AShotgun::ShotgunTraceEndWithScatter(const FVector& HitTarget, TArray<FVector_NetQuantize>& HitTargets)
+{
+	const USkeletalMeshSocket* MuzzleFlashSocket = GetWeaponMesh()->GetSocketByName("MuzzleFlash");
+	if (MuzzleFlashSocket == nullptr) return;
+
+	const FTransform SocketTransform = MuzzleFlashSocket->GetSocketTransform(GetWeaponMesh());
+	const FVector TraceStart = SocketTransform.GetLocation();
+
+	const FVector ToTargetNormalized = (HitTarget - TraceStart).GetSafeNormal();
+	const FVector SphereCenter = TraceStart + ToTargetNormalized * DistanceToSphere;
+
+	for (uint32 i = 0; i < NumberOfPellets; i++)
+	{
+		const FVector RandVec = UKismetMathLibrary::RandomUnitVector() * FMath::FRandRange(0.f, SphereRadius);
+		const FVector EndLoc = SphereCenter + RandVec;
+		FVector ToEndLoc = EndLoc - TraceStart;
+		ToEndLoc = TraceStart + ToEndLoc * TRACE_LENGTH / ToEndLoc.Size();
+
+		HitTargets.Add(ToEndLoc);
+	}
+}
+```
+
 ### Projectile Weapon (Rocket Launcher / Grenade Launcher)
 A projectile weapon is a type of weapon that works by launching solid projectiles.
 When **void AProjectileWeapon::Fire(const FVector& HitTarget)** is called, a projectile is spawned and it moves towards the HitTarget parameter.
@@ -286,6 +318,28 @@ Shotgun weapon is a type of weapon that launches multiple projectiles towards th
 
 
 ``` c++
+void AShotgun::ShotgunTraceEndWithScatter(const FVector& HitTarget, TArray<FVector_NetQuantize>& HitTargets)
+{
+	const USkeletalMeshSocket* MuzzleFlashSocket = GetWeaponMesh()->GetSocketByName("MuzzleFlash");
+	if (MuzzleFlashSocket == nullptr) return;
+
+	const FTransform SocketTransform = MuzzleFlashSocket->GetSocketTransform(GetWeaponMesh());
+	const FVector TraceStart = SocketTransform.GetLocation();
+
+	const FVector ToTargetNormalized = (HitTarget - TraceStart).GetSafeNormal();
+	const FVector SphereCenter = TraceStart + ToTargetNormalized * DistanceToSphere;
+
+	for (uint32 i = 0; i < NumberOfPellets; i++)
+	{
+		const FVector RandVec = UKismetMathLibrary::RandomUnitVector() * FMath::FRandRange(0.f, SphereRadius);
+		const FVector EndLoc = SphereCenter + RandVec;
+		FVector ToEndLoc = EndLoc - TraceStart;
+		ToEndLoc = TraceStart + ToEndLoc * TRACE_LENGTH / ToEndLoc.Size();
+
+		HitTargets.Add(ToEndLoc);
+	}
+}
+
 void AShotgun::FireShotgun(const TArray<FVector_NetQuantize>& HitTargets)
 {
 	AWeapon::Fire(FVector());
