@@ -10,7 +10,16 @@ This is an online shooter game made with Unreal Engine and it's Dedicated Server
 
 
 ## Implementations
-1. Weapons
-2. Health & Death
-3. Pickups
-4. Lag Compensation
+- Weapons
+  - HitScan Weapon
+    - Assault Rifle
+    - Sniper Rifle
+    - Pistol
+  - Projectile Weapon
+    - Rocket Launcher
+    - Grenade Launcher
+  - Shotgun Weapon
+    - Shotgun
+- Pickups
+- Health & Death
+- Lag Compensation
