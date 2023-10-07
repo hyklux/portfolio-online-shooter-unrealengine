@@ -13,4 +13,4 @@ This is an online shooter game made with Unreal Engine and it's Dedicated Server
 1. Weapons
 2. Health & Death
 3. Pickups
-4 Lag Compensation
+4. Lag Compensation
