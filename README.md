@@ -9,7 +9,7 @@ Youtube Link : https://youtu.be/NV9-pcHnVTc
 This is an online shooter game made with Unreal Engine and it's Dedicated Server system.
 
 
-(사진)
+![online_shooter_1](https://github.com/hyklux/portfolio-online-shooter-unrealengine/assets/96270683/f30c6d57-b919-4ca7-8cb9-ae0810f48d5f)
 
 
 ## Implementations
@@ -48,7 +48,7 @@ This is an online shooter game made with Unreal Engine and it's Dedicated Server
 For everyframe **TraceUnderCrosshairs(FHitResult& TraceHitResult)** is called to detect a hit target. If a valid hit target is detected crosshairs turn red.
   
 
-(사진)
+![online_shooter_aim_1](https://github.com/hyklux/portfolio-online-shooter-unrealengine/assets/96270683/e6a8e8fd-b78b-4e6a-8259-168291d1af0d)
 ``` c++
 void UCombatComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
