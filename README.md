@@ -17,11 +17,39 @@ This is an online shooter game made with Unreal Engine and it's Dedicated Server
 
   
   - Aiming
-  For everyframe TraceUnderCrosshairs(FHitResult& TraceHitResult) is called to detect a hit target. If a valid hit target is detected crosshairs turn red.
+  - HitScan Weapon (Assault Rifle / Sniper Rifle / Pistol)
+  - Projectile Weapon (Rocket Launcher / Grenade Launcher)
+  - Shotgun Weapon (Shotgun)
+  - Grenade
+
+
+- **Pickups**
+  - Weapons
+  - Ammos
+  - Health
+  - Shield
+
+
+- **Health & Death**
+  - Health
+  - Death
+
+
+- **Lag Compensation**
+  - Client-Side Prediction
+  - Server-Side Prediction
+
+
+
+
+## Weapons
+
+### Aiming
+For everyframe TraceUnderCrosshairs(FHitResult& TraceHitResult) is called to detect a hit target. If a valid hit target is detected crosshairs turn red.
   
 
-  (사진)
-  ``` c++
+(사진)
+``` c++
 void UCombatComponent::TraceUnderCrosshairs(FHitResult& TraceHitResult)
 {
 	FVector2D ViewportSize;
@@ -69,32 +97,6 @@ void UCombatComponent::TraceUnderCrosshairs(FHitResult& TraceHitResult)
 	}
 }
 ```
-  - HitScan Weapon (Assault Rifle / Sniper Rifle / Pistol)
-  - Projectile Weapon (Rocket Launcher / Grenade Launcher)
-  - Shotgun Weapon (Shotgun)
-  - Grenade
-
-
-- **Pickups**
-  - Weapons
-  - Ammos
-  - Health
-  - Shield
-
-
-- **Health & Death**
-  - Health
-  - Death
-
-
-- **Lag Compensation**
-  - Client-Side Prediction
-  - Server-Side Prediction
-
-
-
-
-## Weapons
 
 
 ### HitScan Weapon (Assault Rifle / Sniper Rifle / Pistol)
