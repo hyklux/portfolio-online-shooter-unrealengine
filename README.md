@@ -11,7 +11,7 @@ This is an online shooter game made with Unreal Engine and it's Dedicated Server
 
 ## Implementations
 1. Weapons
-  1.1 HitScan Weapon 
+- 1.1 HitScan Weapon 
 	  1.1.1 Assault Rifle
 	  1.1.2 Sniper Rifle
 	  1.1.3 Pistol
