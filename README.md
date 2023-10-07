@@ -45,11 +45,26 @@ This is an online shooter game made with Unreal Engine and it's Dedicated Server
 ## Weapons
 
 ### Aiming
-For everyframe TraceUnderCrosshairs(FHitResult& TraceHitResult) is called to detect a hit target. If a valid hit target is detected crosshairs turn red.
+For everyframe **TraceUnderCrosshairs(FHitResult& TraceHitResult)** is called to detect a hit target. If a valid hit target is detected crosshairs turn red.
   
 
 (사진)
 ``` c++
+void UCombatComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+{
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+	if (IsValid(Character) && Character->IsLocallyControlled())
+	{
+		FHitResult HitResult;
+		TraceUnderCrosshairs(HitResult);
+		HitTarget = HitResult.ImpactPoint;
+
+		SetHUDCrosshairs(DeltaTime);
+		InterpFOV(DeltaTime);
+	}
+}
+
 void UCombatComponent::TraceUnderCrosshairs(FHitResult& TraceHitResult)
 {
 	FVector2D ViewportSize;
