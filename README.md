@@ -13,7 +13,7 @@ This is an online shooter game made with Unreal Engine and it's Dedicated Server
 
 
 ## Implementations
-- Weapons
+- **Weapons**
 
 
   - HitScan Weapon (Assault Rifle / Sniper Rifle / Pistol)
@@ -21,19 +21,19 @@ This is an online shooter game made with Unreal Engine and it's Dedicated Server
   - Shotgun Weapon (Shotgun)
 
 
-- Pickups
+- **Pickups**
   - Weapons
   - Ammos
   - Health
   - Shield
 
 
-- Health & Death
+- **Health & Death**
   - Health
   - Death
 
 
-- Lag Compensation
+- **Lag Compensation**
   - Client-Side Prediction
   - Server-Side Prediction
 
