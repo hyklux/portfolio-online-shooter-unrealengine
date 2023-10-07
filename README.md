@@ -118,6 +118,8 @@ void UCombatComponent::TraceUnderCrosshairs(FHitResult& TraceHitResult)
 ### Hitscan Weapon (Assault Rifle / Sniper Rifle / Pistol)
 Hitscan weapon is a type of weapon that determines whether an object has been hit or not by scanning if the weapon was aimed directly at its target.
 When **AHitScanWeapon::Fire(const FVector& HitTarget)** is called, damage is applied instantly to the HitTarget parameter.
+
+
 (gif)
 
 
@@ -178,6 +180,8 @@ void AHitScanWeapon::Fire(const FVector& HitTarget)
 A projectile weapon is a type of weapon that works by launching solid projectiles.
 When **void AProjectileWeapon::Fire(const FVector& HitTarget)** is called, a projectile is spawned and it moves towards the HitTarget parameter.
 Damage will be applied to the HitTarget only if the projectile actually his the HitTarget.
+
+
 (gif)
 
 
@@ -268,9 +272,12 @@ void AProjectileWeapon::Fire(const FVector& HitTarget)
 
 ### Shotgun Weapon (Shotgun)
 Shotgun weapon is a type of weapon that launches multiple projectiles towards the HitTarget at a single fire.
+
+
 (gif)
 
 
+``` c++
 void AShotgun::FireShotgun(const TArray<FVector_NetQuantize>& HitTargets)
 {
 	AWeapon::Fire(FVector());
@@ -395,6 +402,8 @@ void AShotgun::FireShotgun(const TArray<FVector_NetQuantize>& HitTargets)
 		}
 	}
 }
+```
+
 
 ## Pickups
 
