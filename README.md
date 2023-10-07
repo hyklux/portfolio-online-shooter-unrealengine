@@ -24,7 +24,6 @@ This is an online shooter game made with Unreal Engine and it's Dedicated Server
 
 
 - **Pickups**
-  - Weapons
   - Ammos
   - Health
   - Shield
@@ -436,9 +435,6 @@ void AProjectileWeapon::Fire(const FVector& HitTarget)
 
 
 ## Pickups
-
-
-### Weapons
 
 
 ### Ammos
