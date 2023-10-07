@@ -18,8 +18,8 @@ This is an online shooter game made with Unreal Engine and it's Dedicated Server
   
   - Aiming
   - HitScan Weapon (Assault Rifle / Sniper Rifle / Pistol)
+  - - Shotgun Weapon (Shotgun)
   - Projectile Weapon (Rocket Launcher / Grenade Launcher)
-  - Shotgun Weapon (Shotgun)
   - Grenade
 
 
@@ -43,6 +43,14 @@ This is an online shooter game made with Unreal Engine and it's Dedicated Server
 
 
 ## Weapons
+
+
+Weapon class is the base class for all weapon classes. HitScanWeapon class and ProjectileWeapon class inherit Weapon class and override **Fire(const FVector& HitTarget)** function according to the characteristics of each weapon class.
+
+
+This diagram shows the inheritance relationships of all weapon classes:
+![online_shooter_weapon](https://github.com/hyklux/portfolio-online-shooter-unrealengine/assets/96270683/6cf2dfd2-81b8-412b-933d-0c877b514051)
+
 
 ### Aiming
 For everyframe **TraceUnderCrosshairs(FHitResult& TraceHitResult)** is called to detect a hit target. If a valid hit target is detected crosshairs turn red.
