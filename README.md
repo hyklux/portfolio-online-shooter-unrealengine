@@ -458,7 +458,7 @@ void AProjectileWeapon::Fire(const FVector& HitTarget)
 
 
 ### Throw Grenade
-Throwing grenade is different from other weapons. When throw grenade command is pressed, CombatComponent simply creates a grenade projectile and throws it towards the target. 
+Throw grenade is different from other weapons. When throw grenade command is pressed, CombatComponent simply creates a grenade projectile and throws it towards the target. 
 
 
 ![online_shooter_throw_grenade1](https://github.com/hyklux/portfolio-online-shooter-unrealengine/assets/96270683/28b1049f-f43d-4380-a0c8-e17cb2db1c24)
