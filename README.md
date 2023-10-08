@@ -34,8 +34,8 @@ This is an online shooter game made with Unreal Engine and it's Dedicated Server
 
 
 - **Lag Compensation in combat**
-  - Client-Side Prediction
-  - Server-Side Rewind
+  - Client-Side
+  - Server-Side
 
 
 
@@ -750,7 +750,23 @@ void AFPSGameMode::PlayerEliminated(class AFPSCharacter* ElimmedCharacter, class
 ## Lag Compensation
 
 
-### Client-Side Prediction
+### Client-Side
 
 
-### Server-Side Rewind
+Local fire animations and fire effects
+
+
+Ammo update using the concept of Reconciliation
+
+
+Reloading
+
+
+### Server-Side
+Hit detection using the concept of Rewind
+
+
+FrameData
+
+
+Confirming the hit
