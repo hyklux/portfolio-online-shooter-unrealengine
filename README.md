@@ -535,7 +535,7 @@ When player is hit, damage is applied by **ReceiveDamage(AActor* DamagedActor, f
 void AFPSCharacter::ReceiveDamage(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* InstigatorController, AActor* DamageCauser)
 {
 	FPSGameMode = FPSGameMode == nullptr ? GetWorld()->GetAuthGameMode<AFPSGameMode>() : FPSGameMode;
-	if (bElimmed || FPSGameMode == nullptr) return;
+	if (bElimmed || !IsValid(FPSGameMode)) return;
 	Damage = FPSGameMode->CalculateDamage(InstigatorController, Controller, Damage);
 
 	float DamageToHealth = Damage;
@@ -561,11 +561,14 @@ void AFPSCharacter::ReceiveDamage(AActor* DamagedActor, float Damage, const UDam
 
 	if (Health == 0.f)
 	{
-		if (FPSGameMode)
+		if (IsValid(FPSGameMode))
 		{
 			FPSPlayerController = FPSPlayerController == nullptr ? Cast<AFPSPlayerController>(Controller) : FPSPlayerController;
 			AFPSPlayerController* AttackerController = Cast<AFPSPlayerController>(InstigatorController);
-			FPSGameMode->PlayerEliminated(this, FPSPlayerController, AttackerController);
+			if (IsValid(FPSPlayerController) && IsValid(AttackerController))
+			{
+				FPSGameMode->PlayerEliminated(this, FPSPlayerController, AttackerController);
+			}
 		}
 	}
 }
@@ -580,14 +583,14 @@ When player's health is 0, it gets eliminated and the game stats get updated in 
 ``` c++
 void AFPSGameMode::PlayerEliminated(class AFPSCharacter* ElimmedCharacter, class AFPSPlayerController* VictimController, AFPSPlayerController* AttackerController)
 {
-	if (AttackerController == nullptr || AttackerController->PlayerState == nullptr) return;
-	if (VictimController == nullptr || VictimController->PlayerState == nullptr) return;
+	if (!IsValid(AttackerController) || !IsValid(AttackerController->PlayerState)) return;
+	if (!IsValid(VictimController) || !IsValid(VictimController->PlayerState)) return;
 	AFPSPlayerState* AttackerPlayerState = AttackerController ? Cast<AFPSPlayerState>(AttackerController->PlayerState) : nullptr;
 	AFPSPlayerState* VictimPlayerState = VictimController ? Cast<AFPSPlayerState>(VictimController->PlayerState) : nullptr;
 
 	AFPSGameState* FPSGameState = GetGameState<AFPSGameState>();
 
-	if (AttackerPlayerState && AttackerPlayerState != VictimPlayerState && FPSGameState)
+	if (IsValid(AttackerPlayerState) && AttackerPlayerState != VictimPlayerState && IsValid(FPSGameState))
 	{
 		TArray<AFPSPlayerState*> PlayersCurrentlyInTheLead;
 		for (auto LeadPlayer : FPSGameState->TopScoringPlayers)
@@ -600,7 +603,7 @@ void AFPSGameMode::PlayerEliminated(class AFPSCharacter* ElimmedCharacter, class
 		if (FPSGameState->TopScoringPlayers.Contains(AttackerPlayerState))
 		{
 			AFPSCharacter* Leader = Cast<AFPSCharacter>(AttackerPlayerState->GetPawn());
-			if (Leader)
+			if (IsValid(Leader))
 			{
 				Leader->MulticastGainedTheLead();
 			}
@@ -611,19 +614,19 @@ void AFPSGameMode::PlayerEliminated(class AFPSCharacter* ElimmedCharacter, class
 			if (!FPSGameState->TopScoringPlayers.Contains(PlayersCurrentlyInTheLead[i]))
 			{
 				AFPSCharacter* Loser = Cast<AFPSCharacter>(PlayersCurrentlyInTheLead[i]->GetPawn());
-				if (Loser)
+				if (IsValid(Loser))
 				{
 					Loser->MulticastLostTheLead();
 				}
 			}
 		}
 	}
-	if (VictimPlayerState)
+	if (IsValid(VictimPlayerState))
 	{
 		VictimPlayerState->AddToDefeats(1);
 	}
 
-	if (ElimmedCharacter)
+	if (IsValid(ElimmedCharacter))
 	{
 		ElimmedCharacter->Elim(false);
 	}
@@ -631,7 +634,7 @@ void AFPSGameMode::PlayerEliminated(class AFPSCharacter* ElimmedCharacter, class
 	for (FConstPlayerControllerIterator It = GetWorld()->GetPlayerControllerIterator(); It; ++It)
 	{
 		AFPSPlayerController* FPSPlayer = Cast<AFPSPlayerController>(*It);
-		if (FPSPlayer && AttackerPlayerState && VictimPlayerState)
+		if (IsValid(FPSPlayer) && AttackerPlayerState && VictimPlayerState)
 		{
 			FPSPlayer->BroadcastElim(AttackerPlayerState, VictimPlayerState);
 		}
