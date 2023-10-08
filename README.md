@@ -20,7 +20,7 @@ This is an online shooter game made with Unreal Engine and it's Dedicated Server
   - HitScan Weapon (Assault Rifle / Sniper Rifle / Pistol)
   - Shotgun Weapon (Shotgun)
   - Projectile Weapon (Rocket Launcher / Grenade Launcher)
-  - Grenade
+  - Throw Grenade
 
 
 - **Pickups**
@@ -457,6 +457,49 @@ void AProjectileWeapon::Fire(const FVector& HitTarget)
 }
 ```
 
+
+### Throw Grenade
+Throwing grenade is different from other weapons. When throw grenade command is pressed, CombatComponent simply creates a grenade projectile and throws it towards the target. 
+
+(gif)
+
+``` c++
+void UCombatComponent::ThrowGrenade()
+{
+	if (Grenades == 0) return;
+	if (CombatState != ECombatState::ECS_Unoccupied || EquippedWeapon == nullptr) return;
+	CombatState = ECombatState::ECS_ThrowingGrenade;
+	if (Character)
+	{
+		Character->PlayThrowGrenadeMontage();
+		AttachActorToLeftHand(EquippedWeapon);
+		ShowAttachedGrenade(true);
+	}
+	if (Character && !Character->HasAuthority())
+	{
+		ServerThrowGrenade();
+	}
+	if (Character && Character->HasAuthority())
+	{
+		Grenades = FMath::Clamp(Grenades - 1, 0, MaxGrenades);
+		UpdateHUDGrenades();
+	}
+}
+
+void UCombatComponent::ServerThrowGrenade_Implementation()
+{
+	if (Grenades == 0) return;
+	CombatState = ECombatState::ECS_ThrowingGrenade;
+	if (Character)
+	{
+		Character->PlayThrowGrenadeMontage();
+		AttachActorToLeftHand(EquippedWeapon);
+		ShowAttachedGrenade(true);
+	}
+	Grenades = FMath::Clamp(Grenades - 1, 0, MaxGrenades);
+	UpdateHUDGrenades();
+}
+```
 
 ## Pickups
 Pickup class is the base class for all pickup classes. OverlapSphere component triggers OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) function when it overlaps with a character. This function is overrided in each inherited pickup class to implement specific features.
