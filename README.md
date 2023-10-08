@@ -127,8 +127,10 @@ Hitscan weapon is a type of weapon that determines whether an object has been hi
 When **AHitScanWeapon::Fire(const FVector& HitTarget)** is called, damage is applied instantly to the HitTarget parameter.
 
 
-(gif)
 ![online_shooter_ar1](https://github.com/hyklux/portfolio-online-shooter-unrealengine/assets/96270683/6826d0a2-a7e4-44c7-bb1d-cd1dbbf3c97e)
+
+
+![online_shooter_sniper1](https://github.com/hyklux/portfolio-online-shooter-unrealengine/assets/96270683/549c6cba-5efc-406a-b61f-ad71fee6a783)
 
 
 
