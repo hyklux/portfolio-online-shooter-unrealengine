@@ -461,25 +461,30 @@ void AProjectileWeapon::Fire(const FVector& HitTarget)
 ### Throw Grenade
 Throwing grenade is different from other weapons. When throw grenade command is pressed, CombatComponent simply creates a grenade projectile and throws it towards the target. 
 
-(gif)
+
+![online_shooter_throw_grenade1](https://github.com/hyklux/portfolio-online-shooter-unrealengine/assets/96270683/28b1049f-f43d-4380-a0c8-e17cb2db1c24)
+
 
 ``` c++
 void UCombatComponent::ThrowGrenade()
 {
 	if (Grenades == 0) return;
-	if (CombatState != ECombatState::ECS_Unoccupied || EquippedWeapon == nullptr) return;
+	if (CombatState != ECombatState::ECS_Unoccupied || !IsValid(EquippedWeapon)) return;
 	CombatState = ECombatState::ECS_ThrowingGrenade;
-	if (Character)
+	
+	if (IsValid(Character))
 	{
 		Character->PlayThrowGrenadeMontage();
 		AttachActorToLeftHand(EquippedWeapon);
 		ShowAttachedGrenade(true);
 	}
-	if (Character && !Character->HasAuthority())
+	
+	if (IsValid(Character() && !Character->HasAuthority())
 	{
 		ServerThrowGrenade();
 	}
-	if (Character && Character->HasAuthority())
+	
+	if (IsValid(Character) && Character->HasAuthority())
 	{
 		Grenades = FMath::Clamp(Grenades - 1, 0, MaxGrenades);
 		UpdateHUDGrenades();
@@ -490,14 +495,47 @@ void UCombatComponent::ServerThrowGrenade_Implementation()
 {
 	if (Grenades == 0) return;
 	CombatState = ECombatState::ECS_ThrowingGrenade;
-	if (Character)
+	
+	if (IsValid(Character))
 	{
 		Character->PlayThrowGrenadeMontage();
 		AttachActorToLeftHand(EquippedWeapon);
 		ShowAttachedGrenade(true);
 	}
+
 	Grenades = FMath::Clamp(Grenades - 1, 0, MaxGrenades);
 	UpdateHUDGrenades();
+}
+
+void UCombatComponent::LaunchGrenade()
+{
+	ShowAttachedGrenade(false);
+	if (IsValid(Character) && Character->IsLocallyControlled())
+	{
+		ServerLaunchGrenade(HitTarget);
+	}
+}
+
+void UCombatComponent::ServerLaunchGrenade_Implementation(const FVector_NetQuantize& Target)
+{
+	if (IsValid(Character) && GrenadeClass && Character->GetAttachedGrenade())
+	{
+		const FVector StartingLocation = Character->GetAttachedGrenade()->GetComponentLocation();
+		FVector ToTarget = Target - StartingLocation;
+		FActorSpawnParameters SpawnParams;
+		SpawnParams.Owner = Character;
+		SpawnParams.Instigator = Character;
+		UWorld* World = GetWorld();
+		if (IsValid(World))
+		{
+			World->SpawnActor<AProjectile>(
+				GrenadeClass,
+				StartingLocation,
+				ToTarget.Rotation(),
+				SpawnParams
+				);
+		}
+	}
 }
 ```
 
