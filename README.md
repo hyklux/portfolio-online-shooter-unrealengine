@@ -357,7 +357,7 @@ void AShotgun::FireShotgun(const TArray<FVector_NetQuantize>& HitTargets)
 
 ### Projectile Weapon (Rocket Launcher / Grenade Launcher)
 A projectile weapon is a type of weapon that works by launching solid projectiles.
-When **void AProjectileWeapon::Fire(const FVector& HitTarget)** is called, a projectile is spawned and it moves towards the HitTarget parameter.
+When **AProjectileWeapon::Fire(const FVector& HitTarget)** is called, a projectile is spawned and it moves towards the HitTarget parameter.
 Damage will be applied to the HitTarget only if the projectile actually his the HitTarget.
 
 
@@ -459,7 +459,7 @@ void AProjectileWeapon::Fire(const FVector& HitTarget)
 
 
 ## Pickups
-Pickup class is the base class for all pickup classes. OverlapSphere component triggers **OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)** function when it overlaps with a character. This function is overrided in each inherited pickup class to implement specific features.
+Pickup class is the base class for all pickup classes. OverlapSphere component triggers OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) function when it overlaps with a character. This function is overrided in each inherited pickup class to implement specific features.
 
 
 The diagram shows the inheritance relationships of all pickup classes:
@@ -549,7 +549,7 @@ void AShieldPickup::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AA
 
 
 ### Health
-When player is hit, damage is applied by **ReceiveDamage(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* InstigatorController, AActor* DamageCauser)** function. When damage is applied, health and shield value is updated on the HUD. Also, the hit reaction animation is played.
+When player is hit, damage is applied by ReceiveDamage(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* InstigatorController, AActor* DamageCauser) function. When damage is applied, health and shield value is updated on the HUD. Also, the hit reaction animation is played.
 
 
 (gif)
