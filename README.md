@@ -3,7 +3,6 @@ Online shooter game made with Unreal Engine
 
 
 ## Introduction
-Youtube Link : https://youtu.be/NV9-pcHnVTc
 
 
 This is an online shooter game made with Unreal Engine and it's Dedicated Server system.
