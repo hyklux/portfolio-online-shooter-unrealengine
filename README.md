@@ -435,10 +435,12 @@ void AProjectileWeapon::Fire(const FVector& HitTarget)
 
 
 ## Pickups
-Pickup class is the base class for all pickup classes. OverlapSphere component triggers void OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) function when it overlaps with a character. This function is overrided in each inherited pickup class to implement specific features.
+Pickup class is the base class for all pickup classes. OverlapSphere component triggers **OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)** function when it overlaps with a character. This function is overrided in each inherited pickup class to implement specific features.
 
 
 The diagram shows the inheritance relationships of all weapon classes:
+
+
 ![online_shooter_pickup_1](https://github.com/hyklux/portfolio-online-shooter-unrealengine/assets/96270683/79896da3-c8a5-4d62-97ef-7957f74951ec)
 
 
