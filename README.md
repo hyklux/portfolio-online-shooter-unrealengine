@@ -36,7 +36,7 @@ This is an online shooter game made with Unreal Engine and it's Dedicated Server
 
 - **Lag Compensation**
   - Client-Side Prediction
-  - Server-Side Prediction
+  - Server-Side Rewind
 
 
 
