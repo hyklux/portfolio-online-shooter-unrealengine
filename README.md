@@ -133,6 +133,8 @@ When **AHitScanWeapon::Fire(const FVector& HitTarget)** is called, damage is app
 ![online_shooter_sniper1](https://github.com/hyklux/portfolio-online-shooter-unrealengine/assets/96270683/549c6cba-5efc-406a-b61f-ad71fee6a783)
 
 
+![online_shooter_pistol1](https://github.com/hyklux/portfolio-online-shooter-unrealengine/assets/96270683/f36a995e-00be-4fd7-9c5a-17e40d8f3a1c)
+
 
 ```c++
 void AHitScanWeapon::Fire(const FVector& HitTarget)
@@ -350,7 +352,10 @@ When **void AProjectileWeapon::Fire(const FVector& HitTarget)** is called, a pro
 Damage will be applied to the HitTarget only if the projectile actually his the HitTarget.
 
 
-(gif)
+![online_shooter_rocketlauncher1](https://github.com/hyklux/portfolio-online-shooter-unrealengine/assets/96270683/b377467d-1f98-42d7-bc43-7abaf795830b)
+
+
+![online_shooter_grenade_launcher1](https://github.com/hyklux/portfolio-online-shooter-unrealengine/assets/96270683/95bd19cf-1100-4d58-8899-5c72c0bd64b0)
 
 
 ``` c++
