@@ -472,7 +472,7 @@ The diagram shows the inheritance relationships of all pickup classes:
 AmmoPickup fills the ammo of a certain weapon with the amount specified in the ammo pickup blueprint class.
 
 
-(gif)
+![online_shooter_ammo_pickup1](https://github.com/hyklux/portfolio-online-shooter-unrealengine/assets/96270683/1679210c-be19-46dc-82a8-a9672513324a)
 
 
 ``` c++
