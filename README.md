@@ -633,7 +633,7 @@ void AShieldPickup::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AA
 When player is hit, damage is applied by ReceiveDamage(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* InstigatorController, AActor* DamageCauser) function. When damage is applied, health and shield value is updated on the HUD. Also, the hit reaction animation is played.
 
 
-(gif)
+![online_shooter_health1](https://github.com/hyklux/portfolio-online-shooter-unrealengine/assets/96270683/ceb96db6-ca9d-4e79-bd15-c4e2233d75d7)
 
 
 ``` c++
@@ -682,7 +682,7 @@ void AFPSCharacter::ReceiveDamage(AActor* DamagedActor, float Damage, const UDam
 When player's health is 0, it gets eliminated and the game stats get updated in the custom GameMode class.
 
 
-(gif)
+![online_shooter_death1](https://github.com/hyklux/portfolio-online-shooter-unrealengine/assets/96270683/8ca35223-c985-4ea4-8c2f-f3f8c1bdaf8a)
 
 
 ``` c++
