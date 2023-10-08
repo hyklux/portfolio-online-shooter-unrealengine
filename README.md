@@ -18,7 +18,7 @@ This is an online shooter game made with Unreal Engine and it's Dedicated Server
   
   - Aiming
   - HitScan Weapon (Assault Rifle / Sniper Rifle / Pistol)
-  - Shotgun Weapon (Shotgun)
+  - Shotgun Weapon
   - Projectile Weapon (Rocket Launcher / Grenade Launcher)
   - Throw Grenade
 
@@ -198,12 +198,12 @@ void AHitScanWeapon::Fire(const FVector& HitTarget)
 }
 ```
 
-### Shotgun (Shotgun)
+### Shotgun
 Shotgun is a type of weapon that executes multiple hit scans to the HitTarget at a single fire. Shotgun class inherits HitScanWeapon class as the basic mechanism is the same,
 however executes the number of hit scans designated in the BP_Shotgun class.
 
 
-(gif)
+![online_shooter_shotgun1](https://github.com/hyklux/portfolio-online-shooter-unrealengine/assets/96270683/a59706ae-83b0-4dec-8e8c-0529c69d86ae)
 
 
 ``` c++
