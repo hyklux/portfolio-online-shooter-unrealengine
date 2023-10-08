@@ -525,9 +525,119 @@ void AShieldPickup::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AA
 
 
 ### Health
+When player is hit, damage is applied by **ReceiveDamage(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* InstigatorController, AActor* DamageCauser)** function. When damage is applied, health and shield value is updated on the HUD. Also, the hit reaction animation is played.
 
 
+(gif)
+
+
+``` c++
+void AFPSCharacter::ReceiveDamage(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* InstigatorController, AActor* DamageCauser)
+{
+	FPSGameMode = FPSGameMode == nullptr ? GetWorld()->GetAuthGameMode<AFPSGameMode>() : FPSGameMode;
+	if (bElimmed || FPSGameMode == nullptr) return;
+	Damage = FPSGameMode->CalculateDamage(InstigatorController, Controller, Damage);
+
+	float DamageToHealth = Damage;
+	if (Shield > 0.f)
+	{
+		if (Shield >= Damage)
+		{
+			Shield = FMath::Clamp(Shield - Damage, 0.f, MaxShield);
+			DamageToHealth = 0.f;
+		}
+		else
+		{
+			DamageToHealth = FMath::Clamp(DamageToHealth - Shield, 0.f, Damage);
+			Shield = 0.f;
+		}
+	}
+
+	Health = FMath::Clamp(Health - DamageToHealth, 0.f, MaxHealth);
+
+	UpdateHUDHealth();
+	UpdateHUDShield();
+	PlayHitReactMontage();
+
+	if (Health == 0.f)
+	{
+		if (FPSGameMode)
+		{
+			FPSPlayerController = FPSPlayerController == nullptr ? Cast<AFPSPlayerController>(Controller) : FPSPlayerController;
+			AFPSPlayerController* AttackerController = Cast<AFPSPlayerController>(InstigatorController);
+			FPSGameMode->PlayerEliminated(this, FPSPlayerController, AttackerController);
+		}
+	}
+}
+```
 ### Death
+When player's health is 0, it gets eliminated and the game stats get updated in the custom GameMode class.
+
+
+(gif)
+
+
+``` c++
+void AFPSGameMode::PlayerEliminated(class AFPSCharacter* ElimmedCharacter, class AFPSPlayerController* VictimController, AFPSPlayerController* AttackerController)
+{
+	if (AttackerController == nullptr || AttackerController->PlayerState == nullptr) return;
+	if (VictimController == nullptr || VictimController->PlayerState == nullptr) return;
+	AFPSPlayerState* AttackerPlayerState = AttackerController ? Cast<AFPSPlayerState>(AttackerController->PlayerState) : nullptr;
+	AFPSPlayerState* VictimPlayerState = VictimController ? Cast<AFPSPlayerState>(VictimController->PlayerState) : nullptr;
+
+	AFPSGameState* FPSGameState = GetGameState<AFPSGameState>();
+
+	if (AttackerPlayerState && AttackerPlayerState != VictimPlayerState && FPSGameState)
+	{
+		TArray<AFPSPlayerState*> PlayersCurrentlyInTheLead;
+		for (auto LeadPlayer : FPSGameState->TopScoringPlayers)
+		{
+			PlayersCurrentlyInTheLead.Add(LeadPlayer);
+		}
+
+		AttackerPlayerState->AddToScore(1.f);
+		FPSGameState->UpdateTopScore(AttackerPlayerState);
+		if (FPSGameState->TopScoringPlayers.Contains(AttackerPlayerState))
+		{
+			AFPSCharacter* Leader = Cast<AFPSCharacter>(AttackerPlayerState->GetPawn());
+			if (Leader)
+			{
+				Leader->MulticastGainedTheLead();
+			}
+		}
+
+		for (int32 i = 0; i < PlayersCurrentlyInTheLead.Num(); i++)
+		{
+			if (!FPSGameState->TopScoringPlayers.Contains(PlayersCurrentlyInTheLead[i]))
+			{
+				AFPSCharacter* Loser = Cast<AFPSCharacter>(PlayersCurrentlyInTheLead[i]->GetPawn());
+				if (Loser)
+				{
+					Loser->MulticastLostTheLead();
+				}
+			}
+		}
+	}
+	if (VictimPlayerState)
+	{
+		VictimPlayerState->AddToDefeats(1);
+	}
+
+	if (ElimmedCharacter)
+	{
+		ElimmedCharacter->Elim(false);
+	}
+
+	for (FConstPlayerControllerIterator It = GetWorld()->GetPlayerControllerIterator(); It; ++It)
+	{
+		AFPSPlayerController* FPSPlayer = Cast<AFPSPlayerController>(*It);
+		if (FPSPlayer && AttackerPlayerState && VictimPlayerState)
+		{
+			FPSPlayer->BroadcastElim(AttackerPlayerState, VictimPlayerState);
+		}
+	}
+}
+```
 
 
 ## Lag Compensation
@@ -536,4 +646,4 @@ void AShieldPickup::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AA
 ### Client-Side Prediction
 
 
-### Server-Side Prediction
+### Server-Side Rewind
