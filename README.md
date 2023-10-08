@@ -128,6 +128,8 @@ When **AHitScanWeapon::Fire(const FVector& HitTarget)** is called, damage is app
 
 
 (gif)
+![online_shooter_ar1](https://github.com/hyklux/portfolio-online-shooter-unrealengine/assets/96270683/6826d0a2-a7e4-44c7-bb1d-cd1dbbf3c97e)
+
 
 
 ```c++
