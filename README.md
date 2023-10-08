@@ -33,7 +33,7 @@ This is an online shooter game made with Unreal Engine and it's Dedicated Server
   - Death
 
 
-- **Lag Compensation**
+- **Lag Compensation in combat**
   - Client-Side Prediction
   - Server-Side Rewind
 
