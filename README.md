@@ -494,7 +494,7 @@ void AAmmoPickup::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AAct
 ```
 
 ### HealthPickup
-HealthPickup heals player the amount specified in the health pickup blueprint class.
+HealthPickup heals player with the amount specified in the health pickup blueprint class.
 
 
 ![online_shooter_health_pickup1](https://github.com/hyklux/portfolio-online-shooter-unrealengine/assets/96270683/5f51788c-ebf4-4210-a3a3-531cc553d9c4)
@@ -520,7 +520,7 @@ void AHealthPickup::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AA
 ```
 
 ### ShieldPickup
-ShieldPickup recharges the shield the amount specified in the shield pickup blueprint class.
+ShieldPickup recharges the shield with the amount specified in the shield pickup blueprint class.
 
 
 ![online_shooter_shield_pickup1](https://github.com/hyklux/portfolio-online-shooter-unrealengine/assets/96270683/ac92147e-c020-4ffa-8c34-b454ef4112f8)
