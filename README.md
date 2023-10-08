@@ -438,20 +438,88 @@ void AProjectileWeapon::Fire(const FVector& HitTarget)
 Pickup class is the base class for all pickup classes. OverlapSphere component triggers **OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)** function when it overlaps with a character. This function is overrided in each inherited pickup class to implement specific features.
 
 
-The diagram shows the inheritance relationships of all weapon classes:
+The diagram shows the inheritance relationships of all pickup classes:
 
 
 ![online_shooter_pickup_1](https://github.com/hyklux/portfolio-online-shooter-unrealengine/assets/96270683/79896da3-c8a5-4d62-97ef-7957f74951ec)
 
 
 ### AmmoPickup
+AmmoPickup fills the ammo of a certain weapon with the amount specified in the ammo pickup blueprint class.
 
+
+(gif)
+
+
+``` c++
+void AAmmoPickup::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	Super::OnSphereOverlap(OverlappedComponent, OtherActor, OtherComp, OtherBodyIndex, bFromSweep, SweepResult);
+
+	AFPSCharacter* FPSCharacter = Cast<AFPSCharacter>(OtherActor);
+	if (IsValid(FPSCharacter))
+	{
+		UCombatComponent* Combat = FPSCharacter->GetCombat();
+		if (IsValid(Combat))
+		{
+			Combat->PickupAmmo(WeaponType, AmmoAmount);
+		}
+	}
+	Destroy();
+}
+```
 
 ### HealthPickup
+HealthPickup heals player the amount specified in the health pickup blueprint class.
 
+
+(gif)
+
+
+``` c++
+void AHealthPickup::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	Super::OnSphereOverlap(OverlappedComponent, OtherActor, OtherComp, OtherBodyIndex, bFromSweep, SweepResult);
+
+	AFPSCharacter* FPSCharacter = Cast<AFPSCharacter>(OtherActor);
+	if (IsValid(FPSCharacter))
+	{
+		UBuffComponent* Buff = FPSCharacter->GetBuff();
+		if (IsValid(Buff))
+		{
+			Buff->Heal(HealAmount, HealingTime);
+		}
+	}
+
+	Destroy();
+}
+```
 
 ### ShieldPickup
+ShieldPickup recharges the shield the amount specified in the shield pickup blueprint class.
 
+
+(gif)
+
+
+``` c++
+void AShieldPickup::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	Super::OnSphereOverlap(OverlappedComponent, OtherActor, OtherComp, OtherBodyIndex, bFromSweep, SweepResult);
+
+	AFPSCharacter* FPSCharacter = Cast<AFPSCharacter>(OtherActor);
+	if (IsValid(FPSCharacter))
+	{
+		UBuffComponent* Buff = FPSCharacter->GetBuff();
+		if (IsValid(Buff))
+		{
+			Buff->RechargeShield(ShieldRechargeAmount, ShieldRechargeTime);
+		}
+	}
+
+	Destroy();
+}
+```
 
 ## Health & Death
 
@@ -460,6 +528,7 @@ The diagram shows the inheritance relationships of all weapon classes:
 
 
 ### Death
+
 
 ## Lag Compensation
 
