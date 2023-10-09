@@ -851,6 +851,8 @@ void AWeapon::ClientAddAmmo_Implementation(int32 AmmoToAdd)
 
 
 **3. Reloading**
+
+
 Reloading lag compensation is similar as that of fire animation and fire effects. If locally controlled player, reload animation is played locally first. The ammo value is updated on the server and then other clients play the reload animation.
 
 
