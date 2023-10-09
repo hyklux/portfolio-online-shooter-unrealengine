@@ -944,7 +944,9 @@ struct FFrameData
 ```
 
 
-These are the hitboxes of a player to be stored in a frame data.
+These are the hit boxes of a player to be stored in a frame data.
+
+
 ![online_shooter_lag_compensation_hitboxes1](https://github.com/hyklux/portfolio-online-shooter-unrealengine/assets/96270683/fa9d092a-cea4-47ea-8b3e-a0a54a54b91d)
 
 
