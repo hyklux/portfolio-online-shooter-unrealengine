@@ -881,6 +881,14 @@ void UCombatComponent::FinishReloading()
 		Fire();
 	}
 }
+
+void UCombatComponent::HandleReload()
+{
+	if (Character)
+	{
+		Character->PlayReloadMontage();
+	}
+}
 ```
 
 
