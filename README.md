@@ -754,6 +754,13 @@ void AFPSGameMode::PlayerEliminated(class AFPSCharacter* ElimmedCharacter, class
 
 
 Local fire animations and fire effects
+When pressing FIRE command as a local player, waiting for the multicast RPC to be executed on the server and down to the client could result in bad responsiveness. So for the local player who fired the weapon, fire animations and fire effects are played locally first before executing the multicast RPC from server.
+
+
+The diagram shows how this works.
+
+
+![online_shooter_lag_compensation1](https://github.com/hyklux/portfolio-online-shooter-unrealengine/assets/96270683/3ebd8cc3-4d3e-445e-b8bd-9ea8d452d4ad)
 
 
 Ammo update using reconciliation
