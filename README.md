@@ -764,7 +764,7 @@ When pressing FIRE command as a local player, waiting for the multicast RPC to b
 The diagram shows how this works.
 
 
-![online_shooter_lag_compensation1](https://github.com/hyklux/portfolio-online-shooter-unrealengine/assets/96270683/3ebd8cc3-4d3e-445e-b8bd-9ea8d452d4ad)
+![online_shooter_lag_compensation1](https://github.com/hyklux/portfolio-online-shooter-unrealengine/assets/96270683/dd0a7601-eaab-41f8-b4ba-9eafa887fe98)
 
 
 Ammo update using reconciliation
