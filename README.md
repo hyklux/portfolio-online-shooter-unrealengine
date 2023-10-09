@@ -910,7 +910,7 @@ Server-Side Rewind is used for the precise and fair hit detection. This techniqu
 **1. Storing frame datas of the player**
 
 
-FrameData is a struct containing the frame time and the hitbox information of a player.
+FrameData is a struct containing the frame time and the information of hit boxes of a player.
 ``` c++
 USTRUCT(BlueprintType)
 struct FBoxInformation
@@ -949,6 +949,11 @@ These are the hit boxes of a player to be stored in a frame data.
 
 ![online_shooter_lag_compensation_hitboxes1](https://github.com/hyklux/portfolio-online-shooter-unrealengine/assets/96270683/fa9d092a-cea4-47ea-8b3e-a0a54a54b91d)
 
+
+In every frame, information of the hix boxes is stored for a designated amount of time.
+
+
+![online_shooter_lag_compensation_storing_frame](https://github.com/hyklux/portfolio-online-shooter-unrealengine/assets/96270683/cae8813e-954d-4dc0-a2c4-6378299e890a)
 
 
 ``` c++
