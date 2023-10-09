@@ -753,7 +753,9 @@ void AFPSGameMode::PlayerEliminated(class AFPSCharacter* ElimmedCharacter, class
 ### Client-Side
 
 
-**Local fire animations and fire effects**
+
+
+**1. Local fire animations and fire effects**
 
 
 When pressing FIRE command as a local player, waiting for the multicast RPC to be executed on the server and down to the client could result in bad responsiveness. So for the local player who fired the weapon, fire animations and fire effects are played locally first before executing the multicast RPC from server.
