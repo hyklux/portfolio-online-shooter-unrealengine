@@ -848,6 +848,42 @@ void AWeapon::ClientAddAmmo_Implementation(int32 AmmoToAdd)
 **3. Reloading**
 
 
+``` c++
+void UCombatComponent::Reload()
+{
+	if (CarriedAmmo > 0 && CombatState == ECombatState::ECS_Unoccupied && EquippedWeapon && !EquippedWeapon->IsFull() && !bLocallyReloading)
+	{
+		ServerReload();
+		HandleReload();
+		bLocallyReloading = true;
+	}
+}
+
+void UCombatComponent::ServerReload_Implementation()
+{
+	if (!IsValid(Character) || !IsValid(EquippedWeapon)) return;
+
+	CombatState = ECombatState::ECS_Reloading;
+	if (!Character->IsLocallyControlled()) HandleReload();
+}
+
+void UCombatComponent::FinishReloading()
+{
+	if (Character == nullptr) return;
+	bLocallyReloading = false;
+	if (Character->HasAuthority())
+	{
+		CombatState = ECombatState::ECS_Unoccupied;
+		UpdateAmmoValues();
+	}
+	if (bFireButtonPressed)
+	{
+		Fire();
+	}
+}
+```
+
+
 ### Server-Side
 
 
