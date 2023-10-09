@@ -765,7 +765,38 @@ The diagram shows how this works.
 
 
 ![online_shooter_lag_compensation1](https://github.com/hyklux/portfolio-online-shooter-unrealengine/assets/96270683/10031b35-5740-47dd-bb18-e3311d5ab790)
+``` c++
+void UCombatComponent::FireHitScanWeapon()
+{
+	if (IsValid(EquippedWeapo)n && Character)
+	{
+		HitTarget = EquippedWeapon->bUseScatter ? EquippedWeapon->TraceEndWithScatter(HitTarget) : HitTarget;
+		if (!Character->HasAuthority()) LocalFire(HitTarget);
+		ServerFire(HitTarget, EquippedWeapon->FireDelay);
+	}
+}
 
+void UCombatComponent::LocalFire(const FVector_NetQuantize& TraceHitTarget)
+{
+	if (!IsValid(EquippedWeapon)) return;
+	if (IsValid(Character) && CombatState == ECombatState::ECS_Unoccupied)
+	{
+		Character->PlayFireMontage(bAiming);
+		EquippedWeapon->Fire(TraceHitTarget);
+	}
+}
+
+void UCombatComponent::ServerFire_Implementation(const FVector_NetQuantize& TraceHitTarget, float FireDelay)
+{
+	MulticastFire(TraceHitTarget);
+}
+
+void UCombatComponent::MulticastFire_Implementation(const FVector_NetQuantize& TraceHitTarget)
+{
+	if (IsValid(Character) && Character->IsLocallyControlled() && !Character->HasAuthority()) return;
+	LocalFire(TraceHitTarget);
+}
+```
 
 **2. Ammo update using reconciliation**
 
