@@ -767,17 +767,16 @@ The diagram shows how this works.
 ![online_shooter_lag_compensation1](https://github.com/hyklux/portfolio-online-shooter-unrealengine/assets/96270683/10031b35-5740-47dd-bb18-e3311d5ab790)
 
 
-Ammo update using reconciliation
+**2. Ammo update using reconciliation**
 
 
-Reloading
+**3. Reloading**
 
 
 ### Server-Side
-Hit detection using rewind
 
 
-FrameData
+**1. Hit detection using rewind**
 
 
-Confirming the hit
+**2. Confirming the hit**
