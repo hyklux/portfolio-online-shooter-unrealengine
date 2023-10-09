@@ -904,9 +904,101 @@ void UCombatComponent::HandleReload()
 
 
 ### Server-Side
+Server-Side Rewind is used for the precise and fair hit detection. This technique can ensure that the players(game entities) are in the same position and rotation as they were when the action was performed by the client. 
 
 
-**1. Hit detection using rewind**
+**1. Storing frame datas of the player**
 
 
-**2. Confirming the hit**
+FrameData is a struct containing the frame time and the hitbox information of a player.
+``` c++
+USTRUCT(BlueprintType)
+struct FBoxInformation
+{
+	GENERATED_BODY()
+
+	UPROPERTY()
+	FVector Location;
+
+	UPROPERTY()
+	FRotator Rotation;
+
+	UPROPERTY()
+	FVector BoxExtent;
+};
+
+USTRUCT(BlueprintType)
+struct FFrameData
+{
+	GENERATED_BODY()
+
+	UPROPERTY()
+	float Time;
+
+	UPROPERTY()
+	TMap<FName, FBoxInformation> HitBoxInfo;
+
+	UPROPERTY()
+	AFPSCharacter* Character;
+};
+```
+![online_shooter_lag_compensation_hitboxes1](https://github.com/hyklux/portfolio-online-shooter-unrealengine/assets/96270683/fa9d092a-cea4-47ea-8b3e-a0a54a54b91d)
+
+
+
+``` c++
+void ULagCompensationComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+{
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+	SaveFrameData();
+}
+
+void ULagCompensationComponent::SaveFrameData()
+{
+	if (Character == nullptr || !Character->HasAuthority()) return;
+	if (FrameHistory.Num() <= 1)
+	{
+		FFrameData ThisFrame;
+		SaveFrameData(ThisFrame);
+		FrameHistory.AddHead(ThisFrame);
+	}
+	else
+	{
+		float HistoryLength = FrameHistory.GetHead()->GetValue().Time - FrameHistory.GetTail()->GetValue().Time;
+		while (HistoryLength > MaxRecordTime)
+		{
+			FrameHistory.RemoveNode(FrameHistory.GetTail());
+			HistoryLength = FrameHistory.GetHead()->GetValue().Time - FrameHistory.GetTail()->GetValue().Time;
+		}
+		FFrameData ThisFrame;
+		SaveFrameData(ThisFrame);
+		FrameHistory.AddHead(ThisFrame);
+
+		ShowFrameData(ThisFrame, FColor::Orange);
+	}
+}
+
+void ULagCompensationComponent::SaveFrameData(FFrameData& FrameData)
+{
+	Character = Character == nullptr ? Cast<AFPSCharacter>(GetOwner()) : Character;
+	if (Character)
+	{
+		FrameData.Time = GetWorld()->GetTimeSeconds();
+		FrameData.Character = Character;
+		for (auto& BoxPair : Character->HitCollisionBoxes)
+		{
+			if (BoxPair.Value != nullptr)
+			{
+				FBoxInformation BoxInformation;
+				BoxInformation.Location = BoxPair.Value->GetComponentLocation();
+				BoxInformation.Rotation = BoxPair.Value->GetComponentRotation();
+				BoxInformation.BoxExtent = BoxPair.Value->GetScaledBoxExtent();
+				FrameData.HitBoxInfo.Add(BoxPair.Key, BoxInformation);
+			}
+		}
+	}
+}
+```
+
+**2. Using the server side rewind when detecting hit**
