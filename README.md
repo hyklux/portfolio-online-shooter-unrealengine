@@ -798,6 +798,9 @@ void UCombatComponent::MulticastFire_Implementation(const FVector_NetQuantize& T
 }
 ```
 
+
+
+
 **2. Ammo update using reconciliation**
 
 
@@ -844,6 +847,8 @@ void AWeapon::ClientAddAmmo_Implementation(int32 AmmoToAdd)
 	SetHUDAmmo();
 }
 ```
+
+
 
 **3. Reloading**
 Reloading lag compensation is similar as that of fire animation and fire effects. If locally controlled player, reload animation is played locally first. The ammo value is updated on the server and then other clients play the reload animation.
