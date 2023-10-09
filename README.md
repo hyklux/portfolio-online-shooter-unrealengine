@@ -846,6 +846,10 @@ void AWeapon::ClientAddAmmo_Implementation(int32 AmmoToAdd)
 ```
 
 **3. Reloading**
+Reloading lag compensation is similar as that of fire animation and fire effects. If locally controlled player, reload animation is played locally first. The ammo value is updated on the server and then other clients play the reload animation.
+
+
+![online_shooter_lag_compensation3](https://github.com/hyklux/portfolio-online-shooter-unrealengine/assets/96270683/382022a7-019a-4a88-b83a-feb0dde7ed5f)
 
 
 ``` c++
