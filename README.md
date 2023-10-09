@@ -756,14 +756,14 @@ void AFPSGameMode::PlayerEliminated(class AFPSCharacter* ElimmedCharacter, class
 Local fire animations and fire effects
 
 
-Ammo update using the concept of Reconciliation
+Ammo update using reconciliation
 
 
 Reloading
 
 
 ### Server-Side
-Hit detection using the concept of Rewind
+Hit detection using rewind
 
 
 FrameData
