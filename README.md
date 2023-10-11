@@ -1,5 +1,5 @@
 # portfolio-online-shooter-unrealengine
-Online shooter game made with Unreal Engine
+Online shooter game made with Unreal Engine and it's Dedicated Server system
 
 
 ## Introduction
